@@ -14,15 +14,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
 
-public class PositionAggregationCollector implements Collector<MowerControlEnum, AtomicReference<Position>, Position> {
-
-    private final GroundLimit limit;
-    private final Position mowerPosition;
-
-    public PositionAggregationCollector(GroundLimit limit, Position mowerPosition) {
-        this.limit = limit;
-        this.mowerPosition = mowerPosition;
-    }
+public record PositionAggregationCollector(GroundLimit limit, Position mowerPosition) implements Collector<MowerControlEnum, AtomicReference<Position>, Position> {
 
     @Override
     public Supplier<AtomicReference<Position>> supplier() {
@@ -34,9 +26,9 @@ public class PositionAggregationCollector implements Collector<MowerControlEnum,
         return (position, control) -> {
             Position tmpPos = position.get();
             switch (control) {
-                case ADVANCE -> position.set(computeAdvance(tmpPos));
                 case RIGHT -> position.set(Position.of(tmpPos.x(), tmpPos.y(), tmpPos.direction().turnRight()));
                 case LEFT -> position.set(Position.of(tmpPos.x(), tmpPos.y(), tmpPos.direction().turnLeft()));
+                default -> position.set(computeAdvance(tmpPos));
             }
         };
     }

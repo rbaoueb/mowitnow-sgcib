@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public final class MowerFileReader implements FileReader {
@@ -28,11 +27,11 @@ public final class MowerFileReader implements FileReader {
     public List<String> parse(final String fileName) {
         List<String> result;
         try (Stream<String> lines = Files.lines(Paths.get(fileName))) {
-            result = lines.collect(Collectors.toList());
+            result = lines.toList();
         } catch (IOException e) {
             throw new GroundFileNotFoundException("problème d'accès au fichier!");
         }
-        if (result.size() == 0 || (result.size() - 1) % 2 != 0) {
+        if (result.isEmpty() || (result.size() - 1) % 2 != 0) {
             throw new GroundFileInvalidException("le fichier doit contenir au moins une entête avec deux lignes par tondeuse!");
         }
         return result;

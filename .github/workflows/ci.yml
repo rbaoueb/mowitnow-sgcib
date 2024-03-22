@@ -1,4 +1,4 @@
-name: Workflow for Codecov mowitnow-sgcib
+name: Build
 on: [push, pull_request]
 jobs:
   run:
@@ -21,4 +21,4 @@ jobs:
         uses: codecov/codecov-action@v4.0.1
         with:
           token: ${{ secrets.ADMIN_ACCESS }}
-          slug: rbaoueb/tennis-bforb
+          slug: rbaoueb/mowitnow-sgcib

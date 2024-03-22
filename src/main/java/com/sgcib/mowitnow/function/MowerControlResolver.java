@@ -1,10 +1,7 @@
 package com.sgcib.mowitnow.function;
 
-import com.sgcib.mowitnow.model.GroundLimit;
-import com.sgcib.mowitnow.model.Mower;
-
 @FunctionalInterface
-public interface MowerControlResolver<T extends Mower, U extends GroundLimit> {
+public interface MowerControlResolver<T, U> {
 
     /**
      *

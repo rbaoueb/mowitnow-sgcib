@@ -16,7 +16,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ValidTest {
+public class MowerServiceTest {
 
     private List<String> content;
     private GardenGround ground;
@@ -28,12 +28,12 @@ public class ValidTest {
     }
 
     @Given("the following lines:")
-    public void the_following_lines(List<String> content) {
+    public void theFollowingLines(List<String> content) {
         this.content = content;
     }
 
     @When("I process lines")
-    public void i_process_lines() {
+    public void iProcessLines() {
         MowerService service = MowerServiceImpl.getInstance();
         try {
             ground = service.process(content);
@@ -42,7 +42,7 @@ public class ValidTest {
         }
     }
     @Then("I got the result")
-    public void got_the_result(List<String> result) {
+    public void gotTheResult(List<String> result) {
         assertNotNull(ground.mowers());
         assertEquals(ground.mowers().size(), result.size());
         for(int i=0; i<ground.mowers().size(); i++) {
@@ -51,19 +51,19 @@ public class ValidTest {
     }
 
     @Then("I got HeaderFileInvalidException")
-    public void i_got_header_file_invalid_exception() {
+    public void iGotHeaderFileInvalidException() {
         assertEquals(exceptions.size(), 1);
         assertTrue(exceptions.get(0) instanceof HeaderFileInvalidException);
     }
 
     @Then("I got PositionInvalidException")
-    public void i_got_position_invalid_exception() {
+    public void iGotPositionInvalidException() {
         assertEquals(exceptions.size(), 1);
         assertTrue(exceptions.get(0) instanceof PositionInvalidException);
     }
 
     @Then("I got CommandInvalidException")
-    public void i_got_command_invalid_exception() {
+    public void iGotCommandInvalidException() {
         assertEquals(exceptions.size(), 1);
         assertTrue(exceptions.get(0) instanceof CommandInvalidException);
     }

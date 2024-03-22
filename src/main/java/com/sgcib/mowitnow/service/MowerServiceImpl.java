@@ -12,14 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public final class MowerServiceImpl implements MowerService {
 
     private static MowerService instance;
 
     private final Function<String, GroundLimit> limitResolver = (header) -> {
-        if (StringUtils.isNotBlank(header) && header.matches("^[0-9] [0-9]$")) {
+        if (StringUtils.isNotBlank(header) && header.matches("^\\d \\d$")) {
             String[] pos = header.split(" ");
             return GroundLimit.of(Integer.parseInt(pos[0]), Integer.parseInt(pos[1]));
         }
@@ -27,14 +26,14 @@ public final class MowerServiceImpl implements MowerService {
     };
 
     private final BiFunction<String, String, Mower> mowerResolver = (position, controls) -> {
-        if (StringUtils.isBlank(position) || !position.matches("^[0-9] [0-9] (N|S|W|E)$")) {
+        if (StringUtils.isBlank(position) || !position.matches("^\\d \\d [NSWE]$")) {
             throw new PositionInvalidException("la ligne de la tondeuse doit contenir deux numériques et la direction spéarés par un espace!");
         }
         if (StringUtils.isBlank(controls) || !StringUtils.containsOnly(controls, MowerControlEnum.ADVANCE.getCode() + MowerControlEnum.RIGHT.getCode() + MowerControlEnum.LEFT.getCode())) {
             throw new CommandInvalidException("les commandes ne doivent contenir que les caractères A, D ou G!");
         }
         String[] pos = position.split(" ");
-        return Mower.of(Integer.parseInt(pos[0]), Integer.parseInt(pos[1]), DirectionEnum.of(pos[2]), controls.chars().mapToObj(Character::toString).map(MowerControlEnum::of).collect(Collectors.toList()));
+        return Mower.of(Integer.parseInt(pos[0]), Integer.parseInt(pos[1]), DirectionEnum.of(pos[2]), controls.chars().mapToObj(Character::toString).map(MowerControlEnum::of).toList());
     };
 
 
